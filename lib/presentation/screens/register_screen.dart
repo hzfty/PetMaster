@@ -69,7 +69,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 20),
-                  // Изображение питомца
                   Center(
                     child: Image.asset(
                       'assets/images/PetMasterLogo.png',
