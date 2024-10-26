@@ -4,6 +4,7 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	
 	<key>CFBundleDisplayName</key>
 	<string>Petmaster App</string>
 	<key>CFBundleExecutable</key>
@@ -45,5 +46,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- <key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>	 -->
 </dict>
 </plist>

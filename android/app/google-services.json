@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "976701317906",
+    "project_id": "petmaster-ef52c",
+    "storage_bucket": "petmaster-ef52c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976701317906:android:f64afc13a2eba20e7b89cb",
+        "android_client_info": {
+          "package_name": "com.petmaster.petmaster_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUmBD-WE15rlD6NNUSHWSIfF9IIAMKOo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
