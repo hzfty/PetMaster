@@ -1,13 +1,17 @@
+// lib/presentation/screens/welcome_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petmaster_app/presentation/blocs/auth_bloc.dart';
 import 'package:petmaster_app/presentation/blocs/auth_event.dart';
+import 'package:petmaster_app/core/routing/app_router.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar и body остаются без изменений
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -27,21 +31,21 @@ class WelcomeScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   context.read<AuthBloc>().add(Guest());
-                  context.go('/home');
+                  context.go(AppRoutes.petList);
                 },
                 child: Text('Начать без входа'),
               ),
               SizedBox(height: 16),
               OutlinedButton(
                 onPressed: () {
-                  context.push('/register');
+                  context.push(AppRoutes.register); // Изменено на push
                 },
                 child: Text('Создать аккаунт'),
               ),
               SizedBox(height: 16),
               TextButton(
                 onPressed: () {
-                  context.push('/login');
+                  context.push(AppRoutes.login); // Изменено на push
                 },
                 child: Text('У меня уже есть аккаунт'),
               ),
