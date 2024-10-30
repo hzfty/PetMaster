@@ -1,5 +1,3 @@
-// lib/presentation/screens/add_pet_screen.dart
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:petmaster_app/data/models/pet.dart';
@@ -42,6 +40,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
   final _distinctiveMarksController = TextEditingController();
   final _allergiesController = TextEditingController();
   final _weightController = TextEditingController();
+  final TextEditingController _birthDateController = TextEditingController();
 
   @override
   void dispose() {
@@ -51,7 +50,14 @@ class _AddPetScreenState extends State<AddPetScreen> {
     _distinctiveMarksController.dispose();
     _allergiesController.dispose();
     _weightController.dispose();
+    _birthDateController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _birthDateController.text = '';
   }
 
   void _nextPage() {
@@ -170,109 +176,156 @@ class _AddPetScreenState extends State<AddPetScreen> {
   }
 
   Widget _buildStep1() {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKeyStep1,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildBackButton(),
-            Center(
-              child:
-                  Image.asset('assets/images/PetMasterLogo.png', height: 150),
-            ),
-            SizedBox(height: 16),
-            Center(
-              child: Text(
-                'Это займет полминуты!',
-                style: Theme.of(context).textTheme.headlineSmall,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKeyStep1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildBackButton(),
+              Center(
+                child:
+                    Image.asset('assets/images/PetMasterLogo.png', height: 300),
               ),
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Имя питомца'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Пожалуйста, введите имя питомца';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 16),
-            GestureDetector(
-              onTap: () async {
-                final date = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime.now(),
-                );
-                if (date != null) {
-                  setState(() {
-                    _birthDate = date;
-                  });
-                }
-              },
-              child: AbsorbPointer(
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Дата рождения',
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  controller: TextEditingController(
-                    text: _birthDate == null
-                        ? ''
-                        : '${_birthDate!.day}.${_birthDate!.month}.${_birthDate!.year}',
-                  ),
-                  validator: (value) {
-                    if (_birthDate == null) {
-                      return 'Пожалуйста, выберите дату рождения';
-                    }
-                    return null;
-                  },
+              SizedBox(height: 16),
+              Center(
+                child: Text(
+                  'Это займет полминуты!',
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
-            ),
-            SizedBox(height: 16),
-            Text('Пол:', style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: ChoiceChip(
-                    label: Text('Самец'),
-                    selected: _gender == 'Самец',
-                    onSelected: (selected) {
-                      setState(() {
-                        _gender = 'Самец';
-                      });
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(labelText: 'Имя питомца'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Пожалуйста, введите имя питомца';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              GestureDetector(
+                onTap: () async {
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                  );
+                  if (date != null) {
+                    setState(() {
+                      _birthDate = date;
+                      _birthDateController.text =
+                          '${_birthDate!.day}.${_birthDate!.month}.${_birthDate!.year}';
+                    });
+                  }
+                },
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Дата рождения',
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    controller: _birthDateController,
+                    validator: (value) {
+                      if (_birthDate == null) {
+                        return 'Пожалуйста, выберите дату рождения';
+                      }
+                      return null;
                     },
                   ),
                 ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: ChoiceChip(
-                    label: Text('Самка'),
-                    selected: _gender == 'Самка',
-                    onSelected: (selected) {
-                      setState(() {
-                        _gender = 'Самка';
-                      });
-                    },
-                  ),
+              ),
+              SizedBox(height: 16),
+              Text('Пол:', style: TextStyle(fontSize: 18)),
+              SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-              ],
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _breedController,
-              decoration: InputDecoration(labelText: 'Порода'),
-            ),
-            Spacer(),
-            _buildNextButton(),
-          ],
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _gender = 'Самец';
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 12.0),
+                          decoration: BoxDecoration(
+                            color: _gender == 'Самец'
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.0),
+                              bottomLeft: Radius.circular(16.0),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Самец',
+                              style: TextStyle(
+                                color: _gender == 'Самец'
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _gender = 'Самка';
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 12.0),
+                          decoration: BoxDecoration(
+                            color: _gender == 'Самка'
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(16.0),
+                              bottomRight: Radius.circular(16.0),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Самка',
+                              style: TextStyle(
+                                color: _gender == 'Самка'
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _breedController,
+                decoration: InputDecoration(labelText: 'Порода'),
+              ),
+              SizedBox(
+                  height: 32), // Добавляем дополнительное пространство внизу
+              _buildNextButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -407,87 +460,87 @@ class _AddPetScreenState extends State<AddPetScreen> {
   }
 
   Widget _buildStep4() {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          _buildBackButton(),
-          SizedBox(height: 16),
-          Text(
-            'Вы можете также настроить данные мед карты',
-            style: Theme.of(context).textTheme.headlineSmall,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(child: Text('Стерилизован:')),
-              Text(':'),
-              Switch(
-                value: _isSterilized,
-                onChanged: (value) {
-                  setState(() {
-                    _isSterilized = value;
-                  });
-                },
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(child: Text('Чипирован:')),
-              Text(':'),
-              Switch(
-                value: _isChipped,
-                onChanged: (value) {
-                  setState(() {
-                    _isChipped = value;
-                  });
-                },
-              ),
-            ],
-          ),
-          if (_isChipped)
-            TextFormField(
-              controller: _chipNumberController,
-              decoration: InputDecoration(labelText: 'Номер микросхемы'),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            _buildBackButton(),
+            SizedBox(height: 16),
+            Text(
+              'Вы можете также настроить данные мед карты',
+              style: Theme.of(context).textTheme.headlineSmall,
+              textAlign: TextAlign.center,
             ),
-          SizedBox(height: 16),
-          TextFormField(
-            controller: _distinctiveMarksController,
-            decoration: InputDecoration(labelText: 'Отличительные признаки'),
-          ),
-          SizedBox(height: 16),
-          TextFormField(
-            controller: _allergiesController,
-            decoration: InputDecoration(labelText: 'Аллергии'),
-          ),
-          SizedBox(height: 16),
-          TextFormField(
-            controller: _weightController,
-            decoration: InputDecoration(labelText: 'Вес'),
-            keyboardType: TextInputType.number,
-          ),
-          Spacer(),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed:
-                      _savePet, // Пропуск сохранит питомца без этих данных
-                  child: Text('Пропустить'),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(child: Text('Стерилизован:')),
+                Switch(
+                  value: _isSterilized,
+                  onChanged: (value) {
+                    setState(() {
+                      _isSterilized = value;
+                    });
+                  },
                 ),
-              ),
-              SizedBox(width: 16),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: _savePet,
-                  child: Text('Сохранить'),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(child: Text('Чипирован:')),
+                Switch(
+                  value: _isChipped,
+                  onChanged: (value) {
+                    setState(() {
+                      _isChipped = value;
+                    });
+                  },
                 ),
+              ],
+            ),
+            if (_isChipped)
+              TextFormField(
+                controller: _chipNumberController,
+                decoration: InputDecoration(labelText: 'Номер микросхемы'),
               ),
-            ],
-          ),
-        ],
+            SizedBox(height: 16),
+            TextFormField(
+              controller: _distinctiveMarksController,
+              decoration: InputDecoration(labelText: 'Отличительные признаки'),
+            ),
+            SizedBox(height: 16),
+            TextFormField(
+              controller: _allergiesController,
+              decoration: InputDecoration(labelText: 'Аллергии'),
+            ),
+            SizedBox(height: 16),
+            TextFormField(
+              controller: _weightController,
+              decoration: InputDecoration(labelText: 'Вес'),
+              keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 32), // Добавляем дополнительное пространство внизу
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed:
+                        _savePet, // Пропуск сохранит питомца без этих данных
+                    child: Text('Пропустить'),
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: _savePet,
+                    child: Text('Сохранить'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
