@@ -1,7 +1,5 @@
-// lib/models/pet.dart
-
 class Pet {
-  String? id;
+  String id; // Сделали id не-nullable
   String name;
   DateTime birthDate;
   String gender;
@@ -16,7 +14,7 @@ class Pet {
   double? weight;
 
   Pet({
-    this.id,
+    required this.id, // Сделали id обязательным
     required this.name,
     required this.birthDate,
     required this.gender,
@@ -34,6 +32,7 @@ class Pet {
   // Методы для конвертации из/в Map для Firestore
   Map<String, dynamic> toMap() {
     return {
+      // 'id': id, // Можно не сохранять id в документе, так как он уже есть в Firestore
       'name': name,
       'birthDate': birthDate.toIso8601String(),
       'gender': gender,
@@ -51,7 +50,7 @@ class Pet {
 
   factory Pet.fromMap(String id, Map<String, dynamic> map) {
     return Pet(
-      id: id,
+      id: id, // Теперь id обязательно и не может быть null
       name: map['name'],
       birthDate: DateTime.parse(map['birthDate']),
       gender: map['gender'],

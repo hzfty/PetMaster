@@ -123,7 +123,7 @@ class _PetListScreenState extends State<PetListScreen> {
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: () {
-          // Переход на экран подробной информации о питомце (если есть)
+          context.goNamed('petDetail', pathParameters: {'petId': pet.id});
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

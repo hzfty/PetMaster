@@ -91,7 +91,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) return;
 
-    final pet = Pet(
+    final petData = Pet(
+      id: '', // Временно устанавливаем пустую строку
       name: _nameController.text.trim(),
       birthDate: _birthDate ?? DateTime.now(),
       gender: _gender,
@@ -107,11 +108,17 @@ class _AddPetScreenState extends State<AddPetScreen> {
     );
 
     try {
-      await FirebaseFirestore.instance
+      final docRef = await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .collection('pets')
-          .add(pet.toMap());
+          .add(petData.toMap());
+
+      // Обновляем id питомца
+      petData.id = docRef.id;
+
+      // Вы можете обновить документ с новым id, если это необходимо
+      // await docRef.update({'id': petData.id});
 
       // Возврат на экран списка питомцев
       if (mounted) {

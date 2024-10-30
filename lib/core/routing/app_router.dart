@@ -1,12 +1,10 @@
-// lib/core/routes/app_router.dart
-
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:petmaster_app/presentation/screens/welcome_screen.dart';
 import 'package:petmaster_app/presentation/screens/register_screen.dart';
 import 'package:petmaster_app/presentation/screens/login_screen.dart';
 import 'package:petmaster_app/presentation/screens/pet_list_screen.dart';
 import 'package:petmaster_app/presentation/screens/add_pet_screen.dart';
+import 'package:petmaster_app/presentation/screens/pet_detail_screen.dart';
 
 class AppRoutes {
   static const String welcome = '/welcome';
@@ -14,6 +12,7 @@ class AppRoutes {
   static const String login = '/login';
   static const String petList = '/pets';
   static const String addPet = '/pets/add';
+  static const String petDetail = '/pets/:petId';
 }
 
 final GoRouter router = GoRouter(
@@ -43,6 +42,14 @@ final GoRouter router = GoRouter(
       path: AppRoutes.addPet,
       name: 'addPet',
       builder: (context, state) => AddPetScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.petDetail,
+      name: 'petDetail',
+      builder: (context, state) {
+        final petId = state.pathParameters['petId']!;
+        return PetDetailScreen(petId: petId);
+      },
     ),
   ],
 );
