@@ -123,7 +123,7 @@ class _PetListScreenState extends State<PetListScreen> {
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: () {
-          context.goNamed('petDetail', pathParameters: {'petId': pet.id});
+          context.pushNamed('petDetail', pathParameters: {'petId': pet.id});
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

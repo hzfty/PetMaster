@@ -71,7 +71,8 @@ class _PetDetailScreenState extends State<PetDetailScreen> {
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
-                    // Функционал редактирования добавим позже
+                    context.pushNamed('editPet',
+                        pathParameters: {'petId': pet.id});
                   },
                 ),
               ],

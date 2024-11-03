@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:petmaster_app/presentation/screens/pet_edit_screen.dart';
 import 'package:petmaster_app/presentation/screens/welcome_screen.dart';
 import 'package:petmaster_app/presentation/screens/register_screen.dart';
 import 'package:petmaster_app/presentation/screens/login_screen.dart';
@@ -13,6 +14,7 @@ class AppRoutes {
   static const String petList = '/pets';
   static const String addPet = '/pets/add';
   static const String petDetail = '/pets/:petId';
+  static const String editPet = '/pets/:petId/edit';
 }
 
 final GoRouter router = GoRouter(
@@ -49,6 +51,14 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
         final petId = state.pathParameters['petId']!;
         return PetDetailScreen(petId: petId);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.editPet,
+      name: 'editPet',
+      builder: (context, state) {
+        final petId = state.pathParameters['petId']!;
+        return PetEditScreen(petId: petId);
       },
     ),
   ],
