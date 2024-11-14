@@ -1,9 +1,12 @@
+// lib/presentation/screens/register_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petmaster_app/presentation/blocs/auth_bloc.dart';
 import 'package:petmaster_app/presentation/blocs/auth_event.dart';
 import 'package:petmaster_app/presentation/blocs/auth_state.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petmaster_app/core/routing/app_router.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -21,8 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController(); // Контроллер для подтверждения пароля
 
-  bool _isPasswordObscured =
-      true; // Переменная для показа/скрытия пароля, потом пригодится!
+  bool _isPasswordObscured = true; // Переменная для показа/скрытия пароля
   bool _isConfirmPasswordObscured =
       true; // Переменная для показа/скрытия подтверждения пароля
 
@@ -31,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          context.go('/home');
+          context.go(AppRoutes.petList);
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.error)),
@@ -51,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             title: Text('Регистрация'),
             leading: BackButton(
               onPressed: () {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
           ),
@@ -61,7 +63,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Добро пожаловать в PetMaster',
@@ -69,7 +70,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 20),
-                  // Изображение питомца
                   Center(
                     child: Image.asset(
                       'assets/images/PetMasterLogo.png',
@@ -182,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
-                      context.push('/login');
+                      context.go(AppRoutes.login);
                     },
                     child: Text('У меня уже есть аккаунт'),
                   ),

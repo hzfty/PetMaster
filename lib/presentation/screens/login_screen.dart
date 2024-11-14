@@ -1,9 +1,12 @@
+// lib/presentation/screens/login_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:petmaster_app/presentation/blocs/auth_bloc.dart';
 import 'package:petmaster_app/presentation/blocs/auth_event.dart';
 import 'package:petmaster_app/presentation/blocs/auth_state.dart';
 import 'package:go_router/go_router.dart';
+import 'package:petmaster_app/core/routing/app_router.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -24,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          context.go('/home');
+          context.go(AppRoutes.petList);
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.error)),
@@ -44,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
             title: Text('Вход в аккаунт'),
             leading: BackButton(
               onPressed: () {
-                context.pop();
+                Navigator.pop(context);
               },
             ),
           ),
@@ -54,7 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Добро пожаловать в PetMaster',
@@ -128,7 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 16),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Добавьте функциональность для восстановления пароля
+                    },
                     child: Text('Забыл пароль'),
                   ),
                 ],
