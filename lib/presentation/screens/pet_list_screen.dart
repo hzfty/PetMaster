@@ -29,14 +29,6 @@ class _PetListScreenState extends State<PetListScreen> {
           ),
         ),
         centerTitle: false,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              _logout();
-            },
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -133,7 +125,7 @@ class _PetListScreenState extends State<PetListScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: EdgeInsets.symmetric(vertical: 2.0),
       child: InkWell(
         onTap: () {
           context.pushNamed('petDetail', pathParameters: {'petId': pet.id});
@@ -235,16 +227,5 @@ class _PetListScreenState extends State<PetListScreen> {
 
   void _navigateToAddPetScreen() {
     context.pushNamed('addPet');
-  }
-
-  void _logout() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      context.go(AppRoutes.welcome);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ошибка при выходе из аккаунта: $e')),
-      );
-    }
   }
 }
