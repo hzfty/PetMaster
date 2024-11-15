@@ -31,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   context.read<AuthBloc>().add(Guest());
-                  context.go(AppRoutes.petList);
+                  context.go(AppRoutes.home);
                 },
                 child: Text('Начать без входа'),
               ),
