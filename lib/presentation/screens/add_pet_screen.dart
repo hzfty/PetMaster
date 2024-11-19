@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:petmaster_app/core/theme/app_colors.dart';
 import 'package:petmaster_app/data/models/pet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -281,8 +282,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                               'Самец',
                               style: TextStyle(
                                 color: _gender == 'Самец'
-                                    ? Colors.white
-                                    : Colors.black,
+                                    ? AppColors.white
+                                    : AppColors.gray03,
                               ),
                             ),
                           ),
@@ -312,8 +313,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
                               'Самка',
                               style: TextStyle(
                                 color: _gender == 'Самка'
-                                    ? Colors.white
-                                    : Colors.black,
+                                    ? AppColors.white
+                                    : AppColors.gray03,
                               ),
                             ),
                           ),
@@ -383,13 +384,23 @@ class _AddPetScreenState extends State<AddPetScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Expanded(
-                          child: Image.asset(imagePath, fit: BoxFit.contain),
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                          ),
+                          child: Image.asset(imagePath, fit: BoxFit.cover),
                         ),
                         SizedBox(height: 8),
-                        Text(typeName),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            typeName,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                         SizedBox(height: 8),
                       ],
                     ),
